@@ -1,0 +1,55 @@
+name: climb-recommender
+
+include:
+  - samples-server/compose/docker-compose-postgres.yml
+
+
+services:
+  recommender_postgres:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: temporal
+      POSTGRES_PASSWORD: temporal
+      POSTGRES_DB: temporal
+    volumes:
+      - temporal-postgres-data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    working_dir: /app
+    ports:
+      - "8000:8000"
+    environment:
+      - TEMPORAL_TARGET=temporal:7233
+      - PYTHONPATH=/app
+    depends_on:
+      - temporal
+      - recommender_postgres
+
+  worker:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    working_dir: /app
+    command: ["sh", "-c", "PYTHONPATH=/app python -m backend.temporal.worker"]
+    depends_on:
+      - temporal
+    environment:
+      - PYTHONPATH=/app
+      - TEMPORAL_TARGET=temporal:7233
+    restart: unless-stopped
+    networks:
+      - temporal-network
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  temporal-postgres-data:
+

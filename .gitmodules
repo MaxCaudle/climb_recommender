@@ -1,0 +1,3 @@
+[submodule "samples-server"]
+	path = samples-server
+	url = https://github.com/temporalio/samples-server.git
