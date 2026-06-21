@@ -7,12 +7,12 @@ include:
 services:
   recommender_postgres:
     image: postgres:14
+    ports:
+      - "5433:5432"
     environment:
-      POSTGRES_USER: temporal
-      POSTGRES_PASSWORD: temporal
-      POSTGRES_DB: temporal
-    volumes:
-      - temporal-postgres-data:/var/lib/postgresql/data
+      POSTGRES_USER: recommender_user
+      POSTGRES_PASSWORD: recommender_pass
+      POSTGRES_DB: recommender
 
   backend:
     build:

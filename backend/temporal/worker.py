@@ -19,7 +19,7 @@ async def main():
     client = None
     while True:
         try:
-            client = await Client.connect(os.environ.get("TEMPORAL_TARGET", "0.0.0.0:7233"))
+            client = await Client.connect("temporal:7233")
             break
         except Exception as e:
             print(f"Temporal connect failed: {e}. Retrying in {backoff}s...")

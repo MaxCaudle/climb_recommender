@@ -1,6 +1,6 @@
 from sqlalchemy import Column, String, Float, INTEGER
 
-from backend.db.base import Base
+from backend.recommender_db.base import Base
 
 
 class Climb(Base):
