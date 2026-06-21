@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Float, INTEGER
+from sqlalchemy import Column, String, Float, INTEGER, ForeignKey
 
 from backend.recommender_db.base import Base
 
@@ -7,7 +7,7 @@ class Climb(Base):
     __tablename__ = 'climb'
 
     name = Column('name', String, nullable=False)
-    area_id = Column('area_id', INTEGER, nullable=False, foreign_key='area.id')
+    area_id = Column(ForeignKey("area.id", ondelete="CASCADE"))
     average_grade = Column('average_grade', Float, nullable=False)
     flash_rate = Column('flash_rate', Float, nullable=False)
     average_rating = Column('average_rating', Float, nullable=False)

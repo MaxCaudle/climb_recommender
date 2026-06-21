@@ -1,8 +1,8 @@
 """main
 
-Revision ID: e16fbaeaab2b
+Revision ID: 4138b0c45701
 Revises: 
-Create Date: 2026-06-21 12:34:25.671940
+Create Date: 2026-06-21 13:06:06.662012
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'e16fbaeaab2b'
+revision: str = '4138b0c45701'
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -34,7 +34,7 @@ def upgrade() -> None:
     )
     op.create_table('climb',
     sa.Column('name', sa.String(), nullable=False),
-    sa.Column('area_id', sa.INTEGER(), nullable=False, foreign_key='area.id'),
+    sa.Column('area_id', sa.Integer(), nullable=True),
     sa.Column('average_grade', sa.Float(), nullable=False),
     sa.Column('flash_rate', sa.Float(), nullable=False),
     sa.Column('average_rating', sa.Float(), nullable=False),
@@ -55,6 +55,7 @@ def upgrade() -> None:
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('created_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
     sa.Column('updated_at', sa.DateTime(), server_default=sa.text('now()'), nullable=False),
+    sa.ForeignKeyConstraint(['area_id'], ['area.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

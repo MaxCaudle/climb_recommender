@@ -1,13 +1,10 @@
 from logging.config import fileConfig
-import sys, os
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
-from pprint import pprint
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../.")))
-pprint(sys.path)
+
 
 from backend.recommender_db import Base
 
